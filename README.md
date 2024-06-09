@@ -1,4 +1,4 @@
-<p align="justify"><b>This tutorial aims to produce a density-based clustering analysis of a cMD trajectory, employing as features the first 3 PCA vectors that are obtained from the GROMACS tools. </b></p>
+<p align="justify"><b>This tutorial is designed to calculate the energy contribution of amino acid residues to the energy barrier of a given reaction. It achieves this by performing single-point calculations on both the reactant and transition state structures, each with the specified residue deleted. </b></p>
 
 <p align="justify"> It requires a cMD *xtc trajectory file, a *tpr and a *gro file. In the first part, the trajectory is corrected with gmx trjconv and the PCA vectors are calculated for the protein mainchain. Then, the pca_dbscan_gmm.py uses DBSCAN to identify outliers and performs a clustering analysis with the Gaussian mixture models. Through a kernel density-based method, the script is also able to identify the PCA vectors that correspond to the highest density of frames in a cluster, and output the 5 frames that are closest to the identified point. Then, the frames are extracted from the trajectory to separate *.gro files. </p>
 
