@@ -10,48 +10,22 @@
 <br/>
 
 The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/res_qmmm_cp2k.sh" target="_blank">res_qmmm_cp2k.sh</a> script has the following usage:
+
+```js
 ./res_qmmm_cp2k.sh res_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
-
-```js
-`# Make a *ndx selection with the region of interest for the analysis.`
-`# In this case we can use the mainchain of protein residues within 10 angstrom from the catalytic residues.`
-gmx make_ndx -f ref.gro -o act.ndx
-
-`# Correct the PBC of the octahedron box.`
-echo 1 0 | gmx trjconv -f trajectory.xtc -s ref.tpr -ur compact -pbc mol -center -o trajectory_pbc.xtc
-
-`# Fit the trajectory relative to the previously created selection.`
-echo 27 0 | gmx trjconv -f trajectory_pbc.xtc -s ref.gro -n act.ndx -fit rot+trans -o trajectory_fit.xtc    
 ```
+It prepares a directory for each residue in the list where the input files for CP2K will be output. The supplied topology and structures will be processed through cpptraj to delete each of the specified residues. Since deleting residues changes the atom numbering, the QM/MM settings have to be updated for each deletion. The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/vmd_cp2k-qmmm.tcl" target="_blank">vmd_cp2k-qmmm.tcl</a> script is called within the latter to produce a file with the configuration of the QM layer, defined by the selection in the qm_selection.dat file. It also prepares a parmed input file that corrects the charges in the *prmtop file for the electrostatic embedding scheme. The cp2k_template.inp file should have tags (PRMTOP_TAG and STATE_TAG) that are replaced with the corresponding filenames. 
 
 <br/>
 
-Then we extract the PCA vectors from the corrected trajectory:
+<h2> <p align="center"> <b>II - Output Processing</b> </p></h2>
+
+<br/>
+
+After running the single-point calculations, the following command allows to extract the absolute energies and calculate the TS-R difference:
 
 ```js
-`# Covariance analysis to extract the eigenvectors from the cMD trajectory.`
-echo 27 27 | gmx covar -f trajectory_fit.xtc -s ref.gro -n act.ndx -ascii -v eigenvec.trr -last 3 
-
-`# Print the resulting PCA vectors to a pdb file.`
-echo 27 27 | gmx anaeig -f trajectory_fit.xtc -s ref.gro -n act.ndx -v eigenvec.trr -3d pc.pdb -last 3 
-```
-<br/>
-
-Extract the energy differences from the output files:
-```js
-paste <(for i in RES_*; do echo -n "$i " ; grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1 ; done | awk '{print $1,$10}') <(for i in RES_*; do grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1 ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' > energy_difference.dat
-```
-
-<br/>
-<h2> <p align="center"> <b>II - Clustering of PCA vectors and identification of representative frames</b> </p></h2>
-
-<br/>
-
-Now we run the <a href="https://arvpinto.github.io/3D_clustering_PCA/pca_dbscan_gmm.py" target="_blank">pca_dbscan_gmm.py</a> script to obtain the clusters and the representative frames.
-The <a href="https://arvpinto.github.io/3D_clustering_PCA/pca_dbscan_gmm.py" target="_blank">pca_dbscan_gmm.py</a> script has the following usage:
-
-```js
-python pca_dbscan_gmm.py <data_file> <eps> <min_samples> <n_components>
+paste <(for i in RES_*; do echo -n "$i " ; grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1 ; done | awk '{print $1,$10}') <(for i in RES_*; do grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1 ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' > energy_differences.dat
 ```
 <p align="justify">The &lt;data_file&gt; should be the processed pc.pdb file, &lt;eps&gt; and &lt;min_samples&gt; define the parameters for outlier identification using the DBSCAN method, and &lt;n_components&gt; defines the number of clusters in the Gaussian Mixture Models clustering. The script produces a 3D plot of the PCA vectors, where the outliers are represented as black markers, the frames closest to the highest density points as white markers, and each cluster displays a different color. Additionally, the density distribution curves of each cluster are plotted against each PCA vector, with markers representing the identified frames.
 Initially try different &lt;eps&gt; and &lt;min_samples&gt; values to see which and how many frames are being identified as outliers.
