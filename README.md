@@ -9,7 +9,7 @@
 
 <br/>
 
-The res_qmmm_cp2k.sh script has the following usage:
+The res_qmmm_cp2k.sh <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/res_qmmm_cp2k.sh" target="_blank">res_qmmm_cp2k.sh</a> script has the following usage:
 ./res_qmmm_cp2k.sh res_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
 
 ```js
