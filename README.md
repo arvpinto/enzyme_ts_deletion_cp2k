@@ -1,6 +1,6 @@
-<p align="justify"><b>This tutorial is designed to calculate the energy contribution of amino acid residues to the energy barrier of a given reaction. It achieves this by performing single-point calculations on both the reactant and transition state structures, each with the specified residue deleted. </b></p>
+<p align="justify"><b>This tutorial is designed to calculate the energy contribution of amino acid residues to the energy barrier of a given reaction. This can be achieved by performing single-point calculations on the provided reactant and transition state structures, each with the specified residue deleted. </b></p>
 
-<p align="justify"> It requires a cMD *xtc trajectory file, a *tpr and a *gro file. In the first part, the trajectory is corrected with gmx trjconv and the PCA vectors are calculated for the protein mainchain. Then, the pca_dbscan_gmm.py uses DBSCAN to identify outliers and performs a clustering analysis with the Gaussian mixture models. Through a kernel density-based method, the script is also able to identify the PCA vectors that correspond to the highest density of frames in a cluster, and output the 5 frames that are closest to the identified point. Then, the frames are extracted from the trajectory to separate *.gro files. </p>
+<p align="justify"> It requires a file with a list of residues to be deleted, a *prmtop file, reactant and TS structures in the *pdb format, a cp2k input template and a file with a vmd selection of the QM selection. </p>
 
 ---
 
@@ -36,9 +36,9 @@ echo 27 27 | gmx anaeig -f trajectory_fit.xtc -s ref.gro -n act.ndx -v eigenvec.
 ```
 <br/>
 
-Clean up the pc.pdb file to include only the PCA vectors:
+Extract the energy differences from the output files:
 ```js
-cat pc.pdb | head -n -2 | tail -n +6 | awk '{print $6,$7,$8}' > temp && mv temp pc.pdb
+paste <(for i in RES_*; do echo -n "$i " ; grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1 ; done | awk '{print $1,$10}') <(for i in RES_*; do grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1 ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' > energy_difference.dat
 ```
 
 <br/>
