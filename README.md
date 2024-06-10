@@ -25,7 +25,7 @@ It prepares a directory for each residue in the list where the input files for C
 After running the single-point calculations, the following command allows to extract the absolute energies and calculate the TS-R difference:
 
 ```js
-paste <(for i in RES_*; do echo -n "$(echo $i | sed 's/RES_//g') " ; grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1 ; done | awk '{print $1,$10}') <(for i in RES_*; do grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1 ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' > energy_differences.dat
+paste <(for i in RES_*; do echo -n "$(echo $i | sed 's/RES_//g') " ; grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1 ; done | awk '{print $1,$10}') <(for i in RES_*; do grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1 ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' | sort -n -k1,1 > energy_differences.dat
 ```
 <p align="justify">The &lt;data_file&gt; should be the processed pc.pdb file, &lt;eps&gt; and &lt;min_samples&gt; define the parameters for outlier identification using the DBSCAN method, and &lt;n_components&gt; defines the number of clusters in the Gaussian Mixture Models clustering. The script produces a 3D plot of the PCA vectors, where the outliers are represented as black markers, the frames closest to the highest density points as white markers, and each cluster displays a different color. Additionally, the density distribution curves of each cluster are plotted against each PCA vector, with markers representing the identified frames.
 Initially try different &lt;eps&gt; and &lt;min_samples&gt; values to see which and how many frames are being identified as outliers.
