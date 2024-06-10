@@ -1,15 +1,16 @@
 <p align="justify"><b>This tutorial is designed to calculate the energy contribution of amino acid residues to the energy barrier of a given reaction. This can be achieved by performing single-point calculations on the provided reactant and transition state structures, each with the specified residue deleted. </b></p>
 
-<p align="justify"> It requires a file with a list of residues to be deleted, a *prmtop file, reactant and TS structures in the *pdb format, a cp2k input template and a file with a vmd selection of the QM selection. </p>
+<p align="justify"> It requires a file with a list of residues to be deleted, a *prmtop file, reactant and TS structures in the *pdb format, a CP2K input template and a file with a VMD selection of the QM region. The following packages are also required: VMD, cpptraj, parmed. </p>
 
 ---
 
 <br>
-<h2> <p align="center"> <b>I - Trajectory correction and extraction of the PCA vectors</b> </p></h2>
+<h2> <p align="center"> <b>I - Input Preparation </b> </p></h2>
 
 <br/>
 
-We start by correcting the cMD trajectory using trjconv (this assumes a truncated octahedron box, change the routine according to your box type):
+The res_qmmm_cp2k.sh script has the following usage:
+./res_qmmm_cp2k.sh res_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
 
 ```js
 `# Make a *ndx selection with the region of interest for the analysis.`
