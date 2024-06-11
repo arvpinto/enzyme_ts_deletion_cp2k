@@ -105,7 +105,7 @@ def compute_center_of_geometry(pdb_file, residue_file, atom1_index, atom2_index,
     plt.scatter(distances, values, c=marker_colors, marker='o', edgecolors='black')  # Add black edges
     plt.axhline(y=wt, color='grey', linestyle='--', linewidth=1, alpha=0.5)
     plt.axvline(x=0, color='grey', linestyle='--', linewidth=1, alpha=0.5)
-    plt.ylabel('Δ$E$')
+    plt.ylabel('Δ$E$ / kcal·mol$^{-1}$')
     plt.xlabel('d$_1$-d$_2$ / Å')
     plt.savefig("marker_plot.png", format='png')
     plt.show()

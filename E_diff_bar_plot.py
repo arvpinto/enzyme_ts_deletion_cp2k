@@ -35,7 +35,7 @@ def plot_data(labels, values, wt=14.8):
     plt.xlim(-1, len(labels))  # Adjusted by adding 1 for better visualization
 
     plt.xlabel('Residue Number')
-    plt.ylabel('Δ$E$')
+    plt.ylabel('Δ$E$ / kcal·mol$^{-1}$')
     plt.tight_layout()  # Adjust layout to make room for label rotation
     plt.savefig("bar_plot.png", format='png')
     plt.show()
