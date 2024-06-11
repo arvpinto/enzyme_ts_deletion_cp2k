@@ -58,13 +58,7 @@ Top 5 closest frames for Cluster 3: [2015 2076 2050 2052 2054]
 
 <br>
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <iframe src="https://arvpinto.github.io/3D_clustering_PCA/3d_plot.html" width="1904" height="894"></iframe>
-</div>
 <br>
-<div align="center">
-    <img src="kernel_density_plot.png">
-</div>
 <br/>
 
 A clusters.csv file is outputed with the cluster numbers that each frame corresponds to (outliers belong in the -1 cluster).
