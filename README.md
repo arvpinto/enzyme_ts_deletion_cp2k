@@ -22,12 +22,23 @@ It prepares a directory for each residue in the list where the input files for C
 
 <br/>
 
-After running the single-point calculations, the following command allows to extract the absolute energies and calculate the TS-R difference:
+After running the single-point calculations, the following command allows to extract the absolute energies and calculate the R->TS energy barrier for each residue deletion:
 
 ```js
 paste <(for i in RES_*; do echo "$i" | sed 's/RES_//g'; done) <(for i in RES_*; do echo $(grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1) ; done | awk '{print $9}') <(for i in RES_*; do echo $(grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1) ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509-14.8}' | sort -n -k1,1 > energy_differences.dat
 ```
-<p align="justify">The &lt;data_file&gt; should be the processed pc.pdb file, &lt;eps&gt; and &lt;min_samples&gt; define the parameters for outlier identification using the DBSCAN method, and &lt;n_components&gt; defines the number of clusters in the Gaussian Mixture Models clustering. The script produces a 3D plot of the PCA vectors, where the outliers are represented as black markers, the frames closest to the highest density points as white markers, and each cluster displays a different color. Additionally, the density distribution curves of each cluster are plotted against each PCA vector, with markers representing the identified frames.
+
+<br/>
+
+The energy barriers can be ploted with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_bar_plot.py" target="_blank">E_diff_bar_plot.py</a> script:
+
+```js
+python E_diff_bar_plot.py energy_differences.dat
+```
+
+<br/>
+
+<p align="justify"> should be the processed pc.pdb file, &lt;eps&gt; and &lt;min_samples&gt; define the parameters for outlier identification using the DBSCAN method, and &lt;n_components&gt; defines the number of clusters in the Gaussian Mixture Models clustering. The script produces a 3D plot of the PCA vectors, where the outliers are represented as black markers, the frames closest to the highest density points as white markers, and each cluster displays a different color. Additionally, the density distribution curves of each cluster are plotted against each PCA vector, with markers representing the identified frames.
 Initially try different &lt;eps&gt; and &lt;min_samples&gt; values to see which and how many frames are being identified as outliers.
 Once you have an adequate number of outliers, try different &lt;n_components&gt; values to identify which number of clusters is more suitable.
 Also take a look at the kernel density plots to see if the density distributions have a regular shape, and the identified frames lie close to highest density points. </p>
