@@ -47,7 +47,14 @@ Also take a look at the kernel density plots to see if the density distributions
 <div align="center">
     <img src="bar_plot.png">
 </div>
+
 <br/>
+
+For reactions involving charge separation, it might be useful to represent the residues relative to the plane of charge separation. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
+
+```js
+python E_diff_dist_plot.py TS.pdb energy_differences.dat 684 34856 1981 1982
+```
 
 <div align="center">
     <img src="marker_plot.png">
