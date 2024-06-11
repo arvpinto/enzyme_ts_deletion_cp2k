@@ -33,6 +33,16 @@ Once you have an adequate number of outliers, try different &lt;n_components&gt;
 Also take a look at the kernel density plots to see if the density distributions have a regular shape, and the identified frames lie close to highest density points. </p>
 <br/>
 
+<div align="center">
+    <img src="bar_plot.png">
+</div>
+<br/>
+
+<div align="center">
+    <img src="marker_plot.png">
+</div>
+<br/>
+
 ```js
 Number of DBSCAN outliers: 29
 Total number of clusters (GMM): 4
