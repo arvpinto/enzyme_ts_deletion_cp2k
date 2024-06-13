@@ -38,19 +38,15 @@ python E_diff_bar_plot.py energy_differences.dat
 
 <br/>
 
-<p align="justify"> should be the processed pc.pdb file, &lt;eps&gt; and &lt;min_samples&gt; define the parameters for outlier identification using the DBSCAN method, and &lt;n_components&gt; defines the number of clusters in the Gaussian Mixture Models clustering. The script produces a 3D plot of the PCA vectors, where the outliers are represented as black markers, the frames closest to the highest density points as white markers, and each cluster displays a different color. Additionally, the density distribution curves of each cluster are plotted against each PCA vector, with markers representing the identified frames.
-Initially try different &lt;eps&gt; and &lt;min_samples&gt; values to see which and how many frames are being identified as outliers.
-Once you have an adequate number of outliers, try different &lt;n_components&gt; values to identify which number of clusters is more suitable.
-Also take a look at the kernel density plots to see if the density distributions have a regular shape, and the identified frames lie close to highest density points. </p>
-<br/>
-
 <div align="center">
     <img src="bar_plot.png">
 </div>
 
+<p align="justify"> The calculated energy barriers upon deletion can be compared with the original energy barrier to see if the residues are stabilizing or destabilizing to the transition state of the reaction step. Here, we can see that the deletion of most residues is unfavorable (this is expected for a small protein in a system with considerable amount of charged molecules), however, the deletion of residue 92 actually decreases the energy barrier. </p>
+
 <br/>
 
-For reactions involving charge separation, it might be useful to represent the residues relative to the plane of charge separation. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
+For reactions involving charge separation, it might be useful to represent the residues relative to the separation plane. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
 
 ```js
 python E_diff_dist_plot.py TS.pdb energy_differences.dat 684 34856 1981 1982
@@ -59,40 +55,16 @@ python E_diff_dist_plot.py TS.pdb energy_differences.dat 684 34856 1981 1982
 <div align="center">
     <img src="marker_plot.png">
 </div>
+
 <br/>
 
-```js
-Number of DBSCAN outliers: 29
-Total number of clusters (GMM): 4
-Cluster 0: 595 frames
-Top 5 closest frames for Cluster 0: [ 578  721  681  647 1544]
-Cluster 1: 1198 frames
-Top 5 closest frames for Cluster 1: [1232 1380 1293 1919 1708]
-Cluster 2: 463 frames
-Top 5 closest frames for Cluster 2: [114  69  68  64  67]
-Cluster 3: 215 frames
-Top 5 closest frames for Cluster 3: [2015 2076 2050 2052 2054]
-```
+<p align="justify"> The script plots the calculated energy barriers against d1-d2, where d1 is the distance between the center of geometry of the deleted residue and the midpoint between the atoms that represent the direction of the positive charge, and d2 is the distance between the center of geometry of the deleted residue and the midpoint between the atoms that represent the direction of the negative charge. If the used conformation is considerably stable and the charge separation reaction is simple, this is able to capture and quantify the electrostatic contribution of residues to the TS quite accurately. Usually, negatively charged residues close to the positive moiety stabilize the transition state, while positively charged residues are destabilizing (and vice-versa relative to the negatively charged moitey).</p>
 
 <br>
 
 <br>
 <br/>
 
-A clusters.csv file is outputed with the cluster numbers that each frame corresponds to (outliers belong in the -1 cluster).
-A frames.dat is ouputed with the top 5 frames that are closest to the highest density point of each cluster.
-
-<br>
-<h2> <p align="center"> <b>III - Frame extraction</b> </p></h2>
-
-<br/>
-
-Use the <a href="https://arvpinto.github.io/3D_clustering_PCA/extract_highdens.py" target="_blank">extract_highdens.py</a> script to extract the identified frames from the trajectory.
-The <a href="https://arvpinto.github.io/3D_clustering_PCA/extract_highdens.py" target="_blank">extract_highdens.py</a> script usage follows:
-
-```js
-python extract_highdens.py <xtc_file> <gro_file> <cluster_indices_file> <output_prefix>
-```
 
 
 
