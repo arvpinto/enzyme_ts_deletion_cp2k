@@ -49,7 +49,7 @@ python E_diff_bar_plot.py energy_differences.dat
 
 <br>
 
-For reactions involving charge separation, it might be useful to represent the residues relative to the separation plane. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
+For reactions involving charge separation, it might be useful to represent the residues relative to the separation plane that characterizes the macrodipole induced by the enzyme. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
 
 ```js
 python E_diff_dist_plot.py TS.pdb energy_differences.dat 684 34856 1981 1982
