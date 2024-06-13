@@ -31,7 +31,11 @@ def get_residue_type(residue_name):
     # Return the type of the residue
     return residue_types.get(residue_name, 'other')
 
-def compute_center_of_geometry(pdb_file, residue_file, atom1_index, atom2_index, atom3_index, atom4_index, wt=14.8):
+def compute_center_of_geometry(pdb_file, residue_file, atom1_index, atom2_index, atom3_index, atom4_index):
+
+    # Original Energy Barrier in kcal.mol-1
+    wt = 14.8
+
     # Load the PDB file
     traj = md.load(pdb_file)
 

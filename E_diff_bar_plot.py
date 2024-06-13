@@ -12,8 +12,11 @@ def read_data(file_path):
             values.append(float(parts[1]))
     return labels, values
 
-def plot_data(labels, values, wt=14.8):
+def plot_data(labels, values):
     plt.figure(figsize=(12, 6))
+
+    # Original Energy Barrier in kcal.mol-1
+    wt = 14.8    
 
     # Generate the positions of the bars
     #x_positions = np.arange(len(labels)) #* 1.5  # Increase the spacing between bars
