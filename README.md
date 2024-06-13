@@ -14,7 +14,7 @@ The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/res_qmmm_cp2k
 ```js
 ./res_qmmm_cp2k.sh res_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
 ```
-It prepares a directory for each residue in the list where the input files for CP2K will be output. The supplied topology and structures will be processed through cpptraj to delete each of the specified residues. Avoid deleting residues from the QM/MM boundary and QM layer. Since deleting residues changes the atom numbering, the QM/MM settings have to be updated for each deletion. The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/vmd_cp2k-qmmm.tcl" target="_blank">vmd_cp2k-qmmm.tcl</a> script is called within the latter to produce a file with the configuration of the QM layer, defined by the selection in the qm_selection.dat file. It also prepares a parmed input file that corrects the charges in the *prmtop file for the electrostatic embedding scheme. The cp2k_template.inp file should have tags (PRMTOP_TAG and STATE_TAG) that are replaced with the corresponding filenames. 
+<p align="justify"> It prepares a directory for each residue in the list where the input files for CP2K will be output. The supplied topology and structures will be processed through cpptraj to delete each of the specified residues. Avoid deleting residues from the QM/MM boundary and QM layer. Since deleting residues changes the atom numbering, the QM/MM settings have to be updated for each deletion. The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/vmd_cp2k-qmmm.tcl" target="_blank">vmd_cp2k-qmmm.tcl</a> script is called within the latter to produce a file with the configuration of the QM layer, defined by the selection in the qm_selection.dat file. It also prepares a parmed input file that corrects the charges in the *prmtop file for the electrostatic embedding scheme. The cp2k_template.inp file should have tags (PRMTOP_TAG and STATE_TAG) that are replaced with the corresponding filenames. </p>
 
 <br/>
 
@@ -58,12 +58,10 @@ python E_diff_dist_plot.py TS.pdb energy_differences.dat 684 34856 1981 1982
 
 <br/>
 
-<p align="justify"> The script plots the calculated energy barriers against d1-d2, where d1 is the distance between the center of geometry of the deleted residue and the midpoint between the atoms that represent the direction of the positive charge, and d2 is the distance between the center of geometry of the deleted residue and the midpoint between the atoms that represent the direction of the negative charge. If the used conformation is considerably stable and the charge separation reaction is simple, this is able to capture and quantify the electrostatic contribution of residues to the TS quite accurately. Usually, negatively charged residues close to the positive moiety stabilize the transition state, while positively charged residues are destabilizing (and vice-versa relative to the negatively charged moitey).</p>
+<p align="justify"> The script plots the calculated energy barriers against d1-d2, where d1 is the distance between the center of geometry of the deleted residue and the midpoint between the atoms that represent the direction of the positive charge, and d2 is the distance between the center of geometry of the deleted residue and the midpoint between the atoms that represent the direction of the negative charge. If the used conformation is considerably stable and the charge separation reaction is simple, this is able to capture and quantify the electrostatic contribution of residues to the TS quite accurately. Usually, negatively charged residues close to the positive moiety stabilize the transition state, while positively charged residues are destabilizing (and vice-versa relative to the negatively charged moiety). Note that the electric field induced by enzymes are quite complex and the latter assumption might not always be true. For example, if a positively charged residue is close to the positive charge, but stabilizing the negative charges of two chemical groups nearby, the repulsion that arises from the lack of neutarlizing positive charge may increase the energy barrier instead. In any case, when discussing this type of results, the environment of the specific residues should be taken in account. </p>
 
 <br>
 
-<br>
-<br/>
 
 
 
