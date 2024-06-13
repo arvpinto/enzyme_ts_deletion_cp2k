@@ -42,7 +42,7 @@ python E_diff_bar_plot.py energy_differences.dat
     <img src="bar_plot.png">
 </div>
 
-<p align="justify"> The calculated energy barriers upon deletion can be compared with the original energy barrier to see if the residues are stabilizing or destabilizing to the transition state of the reaction step. Here, we can see that the deletion of most residues is unfavorable (this is expected for a small protein in a system with considerable amount of charged molecules), however, the deletion of residue 92 actually decreases the energy barrier. </p>
+<p align="justify"> The calculated energy barriers upon deletion can be compared with the original energy barrier (14.8 kcal⋅mol-1) to see if the residues are stabilizing or destabilizing to the transition state of the reaction step. Here, we can see that the deletion of most residues is unfavorable (this is expected for a small protein in a system with considerable amount of charged molecules), however, the deletion of residue 92 actually decreases the energy barrier. </p>
 
 <br/>
 
