@@ -50,7 +50,6 @@ The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/res_qmmm_cp2k
 <pre style="color: white; background-color: black;">
 user@machine:~$ ./res_qmmm_cp2k.sh residue_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
 </pre>
-<br>
 <p align="justify"> It prepares a directory for each residue in the list where the input files for CP2K will be output. The supplied topology and structures will be processed through cpptraj to delete each of the specified residues. Avoid deleting residues from the QM/MM boundary and QM layer. Since deleting residues changes the atom numbering, the QM/MM settings must be updated for each deletion. The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/vmd_cp2k-qmmm.tcl" target="_blank">vmd_cp2k-qmmm.tcl</a> script is called within the latter to produce a file with the configuration of the QM layer, defined by the selection in the qm_selection.dat file. It also prepares a parmed input file that corrects the charges in the *prmtop file for the electrostatic embedding scheme. The cp2k_template.inp file should have tags (PRMTOP_TAG and STATE_TAG) that are replaced with the corresponding filenames. </p>
 
 <br/>
