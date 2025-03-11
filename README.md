@@ -36,8 +36,10 @@ select my_selection, index 213+123+142+531+515+535+515+5321+523
 save HL.mol2, my_selection
 </pre>
 
-And export the selection to a *.mol2
-
+Then the mol2_vmd-qmsel.sh script can be used to extract the selection in the required format:
+<pre style="color: white; background-color: black;">
+./mol2_vmd-qmsel.sh HL.mol2 > qm_selection.dat
+</pre>
 
 <br/>
 
