@@ -29,6 +29,8 @@ quit
 user@machine:~$ sed -i 's/ /+/g' serial_numbers.dat 
 </pre>
 
+<br/>
+
 The *.gro file can then be opened in PYMOL, the selection introduced and a HL.mol2 file exported:
 <pre style="color: white; background-color: black;">
 user@machine:~$ pymol system.gro
@@ -37,6 +39,8 @@ select my_selection, index 213+123+142+531+515+535+515+5321+523
 # save the HL.mol2 file
 save HL.mol2, my_selection
 </pre>
+
+<br/>
 
 Then the mol2_vmd-qmsel.sh script can be used to extract the selection in the required format:
 <pre style="color: white; background-color: black;">
