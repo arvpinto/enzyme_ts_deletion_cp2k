@@ -109,6 +109,7 @@ foreach resi $qm_resi {
         }
     }
 }
+lappend parmed_list "changeLJSingleType :SOL@H* 0.3019 0.047"
 lappend parmed_list "changeLJSingleType :WAT@H* 0.3019 0.047"
 lappend parmed_list "changeLJSingleType :SER@HG 0.3019 0.047"
 lappend parmed_list "changeLJSingleType :THR@HG1 0.3019 0.047"
