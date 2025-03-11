@@ -44,18 +44,18 @@ for i in $(cat $1); do
         sed -i 's/RES_TAG/'"$i"'/g' cpptraj_prmtop_"$i".in
         sed -i 's/PRMTOP_TAG/'"$2"'/g' cpptraj_prmtop_"$i".in
 
-        cpptraj -i cpptraj_pdb_"$i"_R.in >/dev/null
-        cpptraj -i cpptraj_pdb_"$i"_TS.in >/dev/null
-        cpptraj -i cpptraj_prmtop_"$i".in >/dev/null
+        cpptraj -i cpptraj_pdb_"$i"_R.in >> ../cpptraj.log 2>&1
+        cpptraj -i cpptraj_pdb_"$i"_TS.in >> ../cpptraj.log 2>&1
+        cpptraj -i cpptraj_prmtop_"$i".in >> ../cpptraj.log 2>&1
 
         rm cpptraj_pdb_"$i"_R.in cpptraj_pdb_"$i"_TS.in cpptraj_prmtop_"$i".in
 
-        vmd res_"$i"_"$(echo "$3" | sed 's/.pdb//g')".pdb res_"$i".prmtop -e ../vmd_cp2k-qmmm.tcl -dispdev none < ../$6 >/dev/null
+        vmd res_"$i"_"$(echo "$3" | sed 's/.pdb//g')".pdb res_"$i".prmtop -e ../vmd_cp2k-qmmm.tcl -dispdev none < ../$6 >> ../vmd.log 2>&1
 
         sed -i 's/res_'"$i"'_'"$(echo "$3" | sed 's/.pdb//g')"'.pdb/res_'"$i"'.prmtop/g' qmmm-ee.parmed.in
         sed -i 's/res_'"$i"'_'"$(echo "$3" | sed 's/.pdb//g')"'/res_'"$i"'/g' qmmm-ee.parmed.in
 
-        parmed -i qmmm-ee.parmed.in &> /dev/null
+        parmed -i qmmm-ee.parmed.in >> ../parmed.log 2>&1
 
         sed -i 's/STATE_TAG/res_'"$i"'_'"$(echo "$3" | sed 's/.pdb//g')"'.pdb/g' res_qmmm_R.inp
         sed -i 's/STATE_TAG/res_'"$i"'_'"$(echo "$4" | sed 's/.pdb//g')"'.pdb/g' res_qmmm_TS.inp
