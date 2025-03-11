@@ -20,9 +20,11 @@ parmwrite out res_RES_TAG.prmtop
 EOF
 
 total=$(cat $1 | wc -l) ; printf "\rProgress: [%-50s] %d/%d" " " 0 $total
+counter=0
 
 for i in $(cat $1); do
-
+        ((counter++))
+        
         mkdir RES_"$i"
         cd RES_"$i"
 
@@ -61,7 +63,7 @@ for i in $(cat $1); do
 
         cd ..
 
-        printf "\rProgress: [%-50s] %d/%d" $(printf '#%.0s' $(seq 1 $((i * 50 / total)))) $i $total
+        printf "\rProgress: [%-50s] %d/%d" $(printf '#%.0s' $(seq 1 $((counter * 50 / total)))) $counter $total
 
 done
 
