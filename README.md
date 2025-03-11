@@ -8,6 +8,38 @@
 <h2> <p align="center"> <b>I - Input Preparation </b> </p></h2>
 
 <br/>
+A selection in the format presented in qm_selection.dat is required to adequately build the QM system (the atom numbers change upon residue deletion, therefore they cannot be used). The selection can be prepared by first opening the system in VMD:
+
+<pre style="color: white; background-color: black;">
+vmd topology.prmtop R.pdb
+</pre>
+
+Saving a *.gro file of the system:
+<pre style="color: white; background-color: black;">
+animate write gro system.gro
+</pre>
+
+Making a selection in VMD and saving a *.dat file with the serial numbers of the selection:
+<pre style="color: white; background-color: black;">
+set sel [atomselect 0 "resid 89 100 232"]
+set output [open "serial_numbers.dat" "w"]
+puts $output $serial_numbers
+close $output
+quit
+sed -i 's/ /+/g' serial_numbers.dat # replace spaces by + for a PYMOL compatible selection
+</pre>
+
+The *.gro file can then be opened in PYMOL, the selection introduced and a HL.mol2 file exported:
+<pre style="color: white; background-color: black;">
+pymol system.gro
+select my_selection, index 213+123+142+531+515+535+515+5321+523
+save HL.mol2, my_selection
+</pre>
+
+And export the selection to a *.mol2
+
+
+<br/>
 
 The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/res_qmmm_cp2k.sh" target="_blank">res_qmmm_cp2k.sh</a> script has the following usage:
 
