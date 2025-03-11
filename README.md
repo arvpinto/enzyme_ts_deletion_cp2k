@@ -55,6 +55,13 @@ user@machine:~$ ./res_qmmm_cp2k.sh residue_list.dat topology.prmtop R.pdb TS.pdb
 
 <br/>
 
+The calculations can then be run using a for loop:
+<pre style="color: white; background-color: black;">
+user@machine:~$ for i in RES_*; do cd "$i" ; cp2k.popt -i res_qmmm_R.inp -o res_qmmm_R.out ; cp2k.popt -i res_qmmm_TS.inp -o res_qmmm_TS.out ; cd .. ; done
+</pre>
+
+<br/>
+
 <h2> <p align="center"> <b>II - Output Processing</b> </p></h2>
 
 <br>
