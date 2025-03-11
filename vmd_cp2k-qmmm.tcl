@@ -1,3 +1,4 @@
+set auto_path [linsert $auto_path 0 */usr/share/*]
 package require math::statistics
 
 display rendermode GLSL
