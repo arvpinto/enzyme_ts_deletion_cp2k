@@ -8,6 +8,7 @@
 <h2> <p align="center"> <b>I - Input Preparation </b> </p></h2>
 
 <br/>
+
 A selection in the format presented in qm_selection.dat is required to adequately build the QM system (the atom numbers change upon residue deletion, therefore they cannot be used). The selection can be prepared by first opening the system in VMD:
 
 <pre style="color: white; background-color: black;">
