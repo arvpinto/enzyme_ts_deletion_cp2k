@@ -1,3 +1,4 @@
+#--> set path for the math package
 lappend auto_path /usr/share/tcltk/tcllib1.20/math/
 package require math::statistics
 
