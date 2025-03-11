@@ -1,8 +1,6 @@
 set auto_path [linsert $auto_path 0 */usr/share/*]
 package require math::statistics
 
-display rendermode GLSL
-
 puts "1) MAKE SURE YOUR SYSTEM IS THE TOP MOLECULE!"
 set topid [molinfo top get id]
 puts "CONTROL STRING: TOP MOLECULE IS $topid!"
