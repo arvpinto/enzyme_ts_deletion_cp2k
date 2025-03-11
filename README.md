@@ -9,31 +9,32 @@
 
 <br/>
 
-A selection in the format presented in qm_selection.dat is required to adequately build the QM system (the atom numbers change upon residue deletion, therefore they cannot be used). The selection can be prepared by first opening the system in VMD:
+A selection in the format presented in qm_selection.dat is required to adequately build the QM system (the atom numbers change upon residue deletion, therefore they cannot be used).
 
+Open the system in VMD, save a *.gro file and a serial_numbers.dat file with the serial numbers of a selection:
 <pre style="color: white; background-color: black;">
-user@machine:~$ vmd topology.prmtop R.pdb
-</pre>
-
-Saving a *.gro file of the system:
-<pre style="color: white; background-color: black;">
-animate write gro system.gro
-</pre>
-
-Making a selection in VMD and saving a *.dat file with the serial numbers of the selection:
-<pre style="color: white; background-color: black;">
-set sel [atomselect 0 "resid 89 100 232"]
-set output [open "serial_numbers.dat" "w"]
+user@machine:~$ vmd hpla2.prmtop R.pdb
+# save a *.gro file of the system
+animate write gro system.gro 
+# make a VMD selection
+set sel [atomselect 0 "resid 89 100 232"] 
+# get the serial numbers
+set serial_numbers [$sel get serial] 
+# save the serial numbers to the serial_numbers.dat file
+set output [open "serial_numbers.dat" "w"] 
 puts $output $serial_numbers
 close $output
 quit
-user@machine:~$ sed -i 's/ /+/g' serial_numbers.dat # replace spaces by + for a PYMOL compatible selection
+# replace spaces by + for a PYMOL compatible selection
+user@machine:~$ sed -i 's/ /+/g' serial_numbers.dat 
 </pre>
 
 The *.gro file can then be opened in PYMOL, the selection introduced and a HL.mol2 file exported:
 <pre style="color: white; background-color: black;">
 user@machine:~$ pymol system.gro
+# create a PYMOL selection with the serial numbers from serial_numbers.dat 
 select my_selection, index 213+123+142+531+515+535+515+5321+523
+# save the HL.mol2 file
 save HL.mol2, my_selection
 </pre>
 
