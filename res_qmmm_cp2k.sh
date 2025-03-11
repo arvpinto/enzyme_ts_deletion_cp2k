@@ -2,7 +2,7 @@
 
 if [ $# -ne 6 ]; then
 
-    echo "Usage: ./res_qmmm_cp2k.sh res_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat"
+    echo "Usage: ./res_qmmm_cp2k.sh <residue_list> <topology> <reactant_structure> <ts_structure> <cp2k_template> <qm_selection>"
 
 else
 
