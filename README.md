@@ -33,34 +33,30 @@ user@machine:~$ sed -i 's/ /+/g' serial_numbers.dat
 
 The *.gro file can then be opened in PYMOL, the selection introduced and a HL.mol2 file exported:
 <pre style="color: white; background-color: black;">
-user@machine:~$ pymol system.gro
-# create a PYMOL selection with the serial numbers from serial_numbers.dat 
-select my_selection, index 213+123+142+531+515+535+515+5321+523
-# save the HL.mol2 file
-save HL.mol2, my_selection
+user@machine:~$ pymol -cq system.gro -d "select my_selection, index $(paste -sd+ serial_numbers.dat); save HL.mol2, my_selection"
 </pre>
 
 <br/>
 
-Then the mol2_vmd-qmsel.sh script can be used to extract the selection in the required format:
+Then the <a href="https://arvpinto.github.io/enzyme_ts_deletion_cp2k/mol2_vmd-qmsel.sh" target="_blank">mol2_vmd-qmsel.sh</a>mol2_vmd-qmsel.sh script can be used to extract the selection in the required format:
 <pre style="color: white; background-color: black;">
 user@machine:~$ ./mol2_vmd-qmsel.sh HL.mol2 > qm_selection.dat
 </pre>
 
 <br/>
 
-The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/res_qmmm_cp2k.sh" target="_blank">res_qmmm_cp2k.sh</a> script has the following usage:
+The <a href="https://arvpinto.github.io/enzyme_ts_deletion_cp2k/del_res_qmmm_cp2k.sh" target="_blank">del_res_qmmm_cp2k.sh</a> script has the following usage:
 
 <pre style="color: white; background-color: black;">
-user@machine:~$ ./res_qmmm_cp2k.sh residue_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
+user@machine:~$ ./del_res_qmmm_cp2k.sh residue_list.dat topology.prmtop R.pdb TS.pdb cp2k_template.inp qm_selection.dat
 </pre>
-<p align="justify"> It prepares a directory for each residue in the list where the input files for CP2K will be output. The supplied topology and structures will be processed through cpptraj to delete each of the specified residues. Avoid deleting residues from the QM/MM boundary and QM layer. Since deleting residues changes the atom numbering, the QM/MM settings must be updated for each deletion. The <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/vmd_cp2k-qmmm.tcl" target="_blank">vmd_cp2k-qmmm.tcl</a> script is called within the latter to produce a file with the configuration of the QM layer, defined by the selection in the qm_selection.dat file. It also prepares a parmed input file that corrects the charges in the *prmtop file for the electrostatic embedding scheme. The cp2k_template.inp file should have tags (PRMTOP_TAG and STATE_TAG) that are replaced with the corresponding filenames. </p>
+<p align="justify"> It prepares a directory for each residue in the list where the input files for CP2K will be output. The supplied topology and structures will be processed through CPPTRAJ to delete each of the specified residues. Since deleting residues changes the atom numbering, the QM/MM settings must be updated for each deletion. The <a href="https://arvpinto.github.io/enzyme_ts_deletion_cp2k/vmd_forceeval.tcl" target="_blank">vmd_forceeval.tcl</a> script is called within the latter to produce a file with the configuration of the QM layer, defined by the selection in the qm_selection.dat file. The cp2k_template.inp file must have tags (PRMTOP_TAG and STATE_TAG) placed in the right places. </p>
 
 <br/>
 
 The calculations can then be run using a for loop:
 <pre style="color: white; background-color: black;">
-user@machine:~$ for i in RES_*; do cd "$i" ; cp2k.popt -i res_qmmm_R.inp -o res_qmmm_R.out ; cp2k.popt -i res_qmmm_TS.inp -o res_qmmm_TS.out ; cd .. ; done
+user@machine:~$ for i in RES_*; do cd "$i" ; cp2k.popt -i res_del_R.inp -o res_del_R.out ; cp2k.popt -i res_del_TS.inp -o res_del_TS.out ; cd .. ; done
 </pre>
 
 <br/>
@@ -72,12 +68,12 @@ user@machine:~$ for i in RES_*; do cd "$i" ; cp2k.popt -i res_qmmm_R.inp -o res_
 After running the single-point calculations, the following command allows us to extract the absolute energies and calculate the R->TS energy barrier for each residue deletion:
 
 <pre style="color: white; background-color: black;">
-user@machine:~$ paste <(for i in RES_*; do echo "$i" | sed 's/RES_//g'; done) <(for i in RES_*; do echo $(grep "Total FORCE" "$i"/res_qmmm_TS.out | tail -n -1) ; done | awk '{print $9}') <(for i in RES_*; do echo $(grep "Total FORCE" "$i"/res_qmmm_R.out | tail -n -1) ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' | sort -n -k1,1 > energy_differences.dat
+user@machine:~$ paste <(for i in RES_*; do echo "$i" | sed 's/RES_//g'; done) <(for i in RES_*; do echo $(grep "Total FORCE" "$i"/res_del_TS.out | tail -n -1) ; done | awk '{print $9}') <(for i in RES_*; do echo $(grep "Total FORCE" "$i"/res_del_R.out | tail -n -1) ; done | awk '{print $9}') | awk '{print $1,($2-$3)*627.509}' | sort -n -k1,1 > energy_differences.dat
 </pre>
 
 <br/>
 
-The energy barriers can be plotted with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_bar_plot.py" target="_blank">E_diff_bar_plot.py</a> script:
+The energy barriers can be plotted with the <a href="https://arvpinto.github.io/enzyme_ts_deletion_cp2k/E_diff_bar_plot.py" target="_blank">E_diff_bar_plot.py</a> script:
 
 <pre style="color: white; background-color: black;">
 user@machine:~$ python E_diff_bar_plot.py energy_differences.dat
@@ -95,7 +91,7 @@ user@machine:~$ python E_diff_bar_plot.py energy_differences.dat
 
 <br>
 
-For reactions involving charge separation, it might be useful to represent the residues relative to the separation plane that characterizes the macrodipole induced by the enzyme. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_macrodipole_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
+For reactions involving charge separation, it might be useful to represent the residues relative to the separation plane that characterizes the macrodipole induced by the enzyme. This can be done with the <a href="https://arvpinto.github.io/enzyme_ts_deletion_cp2k/E_diff_dists_plot.py" target="_blank">E_diff_dists_plot.py</a> script:
 
 <pre style="color: white; background-color: black;">
 user@machine:~$ python E_diff_dist_plot.py TS.pdb energy_differences.dat 684 34856 1981 1982
