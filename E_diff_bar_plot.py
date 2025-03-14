@@ -8,38 +8,36 @@ def read_data(file_path):
     with open(file_path, 'r') as file:
         for line in file:
             parts = line.split()
-            labels.append(parts[0])
-            values.append(float(parts[1]))
+            labels.append(int(parts[0]))  # Convert to integer
+            values.append(float(parts[1]))  # Convert to float
     return labels, values
 
 def plot_data(labels, values):
     plt.figure(figsize=(12, 6))
 
     # Original Energy Barrier in kcal.mol-1
-    wt = 14.8    
-
-    # Generate the positions of the bars
-    #x_positions = np.arange(len(labels)) #* 1.5  # Increase the spacing between bars
-    bar_width = 1.0  # Set the bar width to ensure bars occupy the whole plot area
+    wt = 14.8
 
     # Determine the color of each bar
-    bar_colors = ['salmon' if value < wt else 'deepskyblue' for value in values]
+    bar_colors = ['blue' if value < wt else 'red' for value in values]
 
     # Create the bar plot
-    plt.bar(labels, values, width=0.4, color=bar_colors)  # Apply bar colors
+    plt.bar(labels, values, width=0.4, color=bar_colors, alpha=0.6)  
 
-    # Add horizontal line at y=10
+    # Add horizontal reference line at y=wt
     plt.axhline(y=wt, color='grey', linestyle='--', linewidth=1, alpha=0.5)
 
-    # Set the x-ticks to the middle of each bar
-    plt.xticks(labels, labels, rotation=90)
-
-    # Set x-axis limit to the maximum value
-    plt.xlim(-1, len(labels))  # Adjusted by adding 1 for better visualization
+    # Convert labels to integers for correct tick spacing
+    max_label = max(labels)  # Ensure this is an integer
+    x_ticks = np.arange(0, max_label + 1, 5)  # Set x-ticks at intervals of 5
+    plt.xticks(x_ticks)  
+    plt.xlim(0, max_label+1)  
 
     plt.xlabel('Residue Number')
     plt.ylabel('Δ$E$ / kcal·mol$^{-1}$')
-    plt.tight_layout()  # Adjust layout to make room for label rotation
+    plt.tight_layout()  # Adjust layout
+
+    # Save and display the plot
     plt.savefig("bar_plot.png", format='png')
     plt.show()
 
