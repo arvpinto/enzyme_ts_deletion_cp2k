@@ -63,8 +63,8 @@ for i in $(cat $res_list); do
         sed -i 's/CHARGE .*/CHARGE '"$qm_charge"'/g' res_del_"$ts_structure".inp	
 
 	### Replace TAG's in CP2K inputs
-        sed -i 's/STATE_TAG/res_'"$i"_"$r_structure"'.pdb/g' res_del_"$r_structure".inp
-        sed -i 's/STATE_TAG/res_'"$i"_"$ts_structure"'.pdb/g' res_del_"$ts_structure".inp
+        sed -i 's/STATE_TAG/res_'"$i"'_'"$r_structure"'.pdb/g' res_del_"$r_structure".inp
+        sed -i 's/STATE_TAG/res_'"$i"'_'"$ts_structure"'.pdb/g' res_del_"$ts_structure".inp
         sed -i 's/PRMTOP_TAG/res_'"$i"'.prmtop/g' res_del_*.inp
 
 	### Clean up
