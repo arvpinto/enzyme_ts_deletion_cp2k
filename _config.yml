@@ -1,6 +1,35 @@
-title: Tutorial for the calculation of per-residue contributions to the energy barrier in CP2K 
-show_downloads: true
-google_analytics:
-remote_theme: pages-themes/cayman@v0.2.0
+title: Tutorial for the calculation of per-residue contributions to the energy barrier in CP2K
+description: Measure how each residue changes the activation energy of an enzymatic reaction by deleting it from the reactant and transition state structures and repeating the QM/MM single points in CP2K.
+author: Alexandre V. Pinto
+lang: en
+image: /assets/img/TS_DEL_RESIDUES.png
+
+# Shown at the top of the main page of the tutorial. "hero" is the image next to the title
+# (the original is assets/img/TS_DEL_RESIDUES.png).
+topic: QM/MM
+topic_color: "#ff5257"
+series: Part 4 of Enzyme QM/MM with CP2K
+tools: [CP2K, VMD, PyMOL, cpptraj, parmed]
+hero:
+  src: /assets/img/TS_DEL_RESIDUES.webp
+  width: 614
+  height: 489
+  alt: Enzyme surface with acidic residues in red and basic residues in blue around the active site
+previous_tutorial:
+  title: Dynamic QM/MM
+  url: https://arvpinto.github.io/enzyme_us_cp2k/
+next_tutorial:
+  title: Transition state macrodipole
+  url: https://arvpinto.github.io/enzyme_ts_macrodipole/
+
+# This tutorial is a single page, so there is no "sections" list: the menu on the
+# left shows the parts of the page (I, II, ...) instead. To split it into several
+# pages later, add a list like the one in the other tutorials.
+
+# Main site (CompBioChem Tutorials) and this repository.
+home_url: https://arvpinto.github.io/
+repo_url: https://github.com/arvpinto/enzyme_ts_deletion_cp2k
+
+# The page uses its own layout and stylesheet (no remote theme), matching the main site.
 plugins:
-- jekyll-remote-theme
+  - jekyll-seo-tag
